@@ -10,13 +10,13 @@ import org.http4s.server.middleware.Logger
 
 object SimpleServer:
   def run[F[_] : Async : Network]: F[Nothing] = {
-    val httpApp = Routes.echoRoutes[F](Echo.instance[F]).orNotFound
-    val finalHttpApp = Logger.httpApp(logHeaders = true, logBody = true)(httpApp)
+    val echoApp = Routes.echoRoutes[F](Echo.instance[F]).orNotFound
+    val httpApp = Logger.httpApp(logHeaders = true, logBody = true)(echoApp)
     for {
       _ <- EmberServerBuilder.default[F]
         .withHost(ipv4"0.0.0.0")
         .withPort(port"8080")
-        .withHttpApp(finalHttpApp)
+        .withHttpApp(httpApp)
         .build
     } yield ()
   }.useForever
