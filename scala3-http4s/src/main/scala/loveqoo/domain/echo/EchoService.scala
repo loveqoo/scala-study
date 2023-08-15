@@ -1,4 +1,4 @@
-package loveqoo.service
+package loveqoo.domain.echo
 
 import cats.Applicative
 import cats.syntax.all.*
@@ -6,12 +6,11 @@ import io.circe.{Encoder, Json}
 import org.http4s.EntityEncoder
 import org.http4s.circe.*
 
-trait Echo[F[_]]:
-  def handle(req: Echo.Request): F[Echo.Response]
+trait EchoService[F[_]]:
+  def handle(req: EchoService.Request): F[EchoService.Response]
 
-object Echo:
+object EchoService:
 
-  val PathName = "echo"
   val JsonKeyName = "value"
 
   final case class Request(value: String) extends AnyVal
@@ -27,6 +26,6 @@ object Echo:
     given[F[_]]: EntityEncoder[F, Response] =
       jsonEncoderOf[F, Response]
 
-  def instance[F[_] : Applicative]: Echo[F] = new Echo[F]:
+  def instance[F[_] : Applicative]: EchoService[F] = new EchoService[F]:
     def handle(req: Request): F[Response] =
       Response(req.value).pure[F]
