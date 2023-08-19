@@ -4,6 +4,8 @@ val LogbackVersion = "1.4.11"
 val MunitVersion = "0.7.29"
 val MunitCatsEffectVersion = "1.0.7"
 val JansiVersion = "2.4.0"
+val slickVersion = "3.5.0-M4"
+val h2Version = "2.2.220"
 val ConfigVersion = "1.4.2"
 
 lazy val root = (project in file("."))
@@ -18,7 +20,10 @@ lazy val root = (project in file("."))
       "org.http4s" %% "http4s-dsl" % http4sVersion,
       "ch.qos.logback" % "logback-classic" % LogbackVersion,
       "com.typesafe" % "config" % ConfigVersion,
+      "com.typesafe.slick" %% "slick" % slickVersion,
+      "com.typesafe.slick" %% "slick-hikaricp" % slickVersion,
       "org.fusesource.jansi" % "jansi" % JansiVersion,
+      "com.h2database" % "h2" % h2Version % Test,
       "org.scalameta" %% "munit" % MunitVersion % Test,
       "org.typelevel" %% "munit-cats-effect-3" % MunitCatsEffectVersion % Test
     )
